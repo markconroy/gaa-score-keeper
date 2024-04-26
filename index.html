@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="An app to help you keep score of GAA matches." />
+  <meta property="og:site_name" content="GAA Score Keeper" />
+  <meta property="og:url" content="https://gaa-score-keeper.mark.ie" />
+  <meta property="og:title" content="GAA Score Keeper" />
+  <meta property="og:description"
+    content="An app to help you keep score of GAA matches." />
+  <meta property="og:image" content="https://gaa-score-keeper.mark.ie/assets/screenshot.jpg" />
+  <meta property="og:image:url" content="https://gaa-score-keeper.mark.ie/assets/screenshot.jpg" />
+  <meta property="og:image:secure_url" content="https://gaa-score-keeper.mark.ie/assets/screenshot.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:description"
+    content="An app to help you keep score of GAA matches." />
+  <meta name="twitter:title" content="GAA Score Keeper" />
+  <meta name="twitter:site" content="@markconroy" />
+  <meta name="twitter:creator" content="twitter.com/markconroy" />
+  <meta name="twitter:url" content="https://gaa-score-keeper.mark.ie" />
+  <meta name="twitter:image" content="https://gaa-score-keeper.mark.ie/assets/screenshot.jpg" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+  <link rel="manifest" href="assets/favicons/site.webmanifest">
+  <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="assets/favicons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="style.css">
+  <title>GAA Score Keeper</title>
+</head>
+
+<body class="flow">
+  <header class="header">GAA Score Keeper</header>
+
+  <main class="main flow">
+    <h1 class="game-title">
+      <span class="game-title__team game-title__team--1">Team 1</span>
+      vs
+      <span class="game-title__team game-title__team--2">Team 2</span>
+    </h1>
+    <section class="section team team--1" data-team-index="1">
+      <h2 class="team__name" contenteditable>Team 1 ✏️</h2>
+      <h3 class="score">
+        <div class="score__items">
+          <div class="score__item score__item--goals">
+            <div class="score__buttons">
+              <button class="score__button score__button--add">+</button>
+              <button class="score__button score__button--remove">-</button>
+            </div>
+            <div class="score__score score__score--goals">
+              <div class="score__number">0</div>
+              <div class="score__text">Goals</div>
+            </div>
+          </div>
+
+          <div class="score__item score__item--points">
+            <div class="score__score score__score--points">
+              <div class="score__number">0</div>
+              <div class="score__text">Points</div>
+            </div>
+            <div class="score__buttons">
+              <button class="score__button score__button--add">+</button>
+              <button class="score__button score__button--remove">-</button>
+            </div>
+          </div>
+        </div>
+        <div class="score__total-points">
+          Total points: <span class="score__total-points-amount">0</span>
+        </div>
+      </h3>
+    </section>
+
+    <section class="section team team--2" data-team-index="2">
+      <h2 class="team__name" contenteditable>Team 2 ✏️</h2>
+      <h3 class="score">
+        <div class="score__items">
+          <div class="score__item score__item--goals">
+            <div class="score__buttons">
+              <button class="score__button score__button--add">+</button>
+              <button class="score__button score__button--remove">-</button>
+            </div>
+            <div class="score__score score__score--goals">
+              <div class="score__number">0</div>
+              <div class="score__text">Goals</div>
+            </div>
+          </div>
+
+          <div class="score__item score__item--points">
+            <div class="score__score score__score--points">
+              <div class="score__number">0</div>
+              <div class="score__text">Points</div>
+            </div>
+            <div class="score__buttons">
+              <button class="score__button score__button--add">+</button>
+              <button class="score__button score__button--remove">-</button>
+            </div>
+          </div>
+        </div>
+        <div class="score__total-points">
+          Total points: <span class="score__total-points-amount">0</span>
+        </div>
+      </h3>
+    </section>
+
+    <section class="section result">
+      <p>No scores yet!</p>
+    </section>
+
+    <section class="section time">
+      <div class="time__text">
+        <p class="time__time">00:00:00</p>
+      </div>
+      <div class="time__actions">
+        <button class="time__button">Start Timer</button>
+      </div>
+    </section>
+
+    <section class="section actions">
+      <div class="action action--reset">
+        <button class="action__button action__button--reset-all">Start new game</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">Created by <a href="https://mark.ie" target="_blank">Mark Conroy</a></footer>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
