@@ -4,8 +4,12 @@ const clockButton = document.querySelector('.time__button');
 const clockTime = document.querySelector('.time__time');
 const resetAllButton = document.querySelector('.action__button--reset-all');
 const pointsForGoal = 3;
-let team1ScoreAmount = 0;
-let team2ScoreAmount = 0;
+let team1NumberOfGoals = 0;
+let team2NumberOfGoals = 0;
+let team1NumberOfPoints = 0;
+let team2NumberOfPoints = 0;
+let team1TotalPoints = 0;
+let team2TotalPoints = 0;
 let team1Name = 'Team 1';
 let team2Name = 'Team 2';
 
@@ -15,18 +19,16 @@ scores.forEach(score => {
   const removeGoalButton = score.querySelector('.score__item--goals .score__button--remove');
   const removePointButton = score.querySelector('.score__item--points .score__button--remove');
   const totalPointsContainer = score.querySelector('.score__total-points-amount');
-  let goalsPlusPointsCombinedAmount = parseInt(score.querySelector('.score__total-points-amount').textContent);
 
   const numberOfGoalsContainer = score.querySelector('.score__item--goals');
-  let numberOfGoals = parseInt(numberOfGoalsContainer.querySelector('.score__number').textContent);
+  let numberOfGoals = 0;
 
   const numberOfPointsContainer = score.querySelector('.score__item--points');
-  let numberOfPoints = parseInt(numberOfPointsContainer.querySelector('.score__number').textContent);
+  let numberOfPoints = 0;
 
   let teamContainer = score.closest('.team');
   const team = teamContainer.dataset.teamIndex;
   let teamNameTextArea = teamContainer.querySelector('.team__name');
-
 
   teamNameTextArea.addEventListener('input', () => {
     if (team == 1) {
@@ -38,20 +40,62 @@ scores.forEach(score => {
     }
   });
 
-  function updateTeamScoreAmount() {
+  function updateAddAGoal() {
     if (team == 1) {
-      team1ScoreAmount = goalsPlusPointsCombinedAmount;
+      team1NumberOfGoals = team1NumberOfGoals + 1;
+      numberOfGoals = team1NumberOfGoals;
     } else {
-      team2ScoreAmount = goalsPlusPointsCombinedAmount;
+      team2NumberOfGoals = team2NumberOfGoals + 1;
+      numberOfGoals = team2NumberOfGoals;
     }
-    if (team1ScoreAmount == team2ScoreAmount) {
+  }
+
+  function updateAddAPoint() {
+    if (team == 1) {
+      team1NumberOfPoints = team1NumberOfPoints + 1;
+      numberOfPoints = team1NumberOfPoints;
+    } else {
+      team2NumberOfPoints = team2NumberOfPoints + 1;
+      numberOfPoints = team2NumberOfPoints;
+    }
+  }
+
+  function updateRemoveAGoal() {
+    if (team == 1) {
+      team1NumberOfGoals = team1NumberOfGoals - 1;
+      numberOfGoals = team1NumberOfGoals;
+    } else {
+      team2NumberOfGoals = team2NumberOfGoals - 1;
+      numberOfGoals = team2NumberOfGoals;
+    }
+  }
+
+  function updateRemoveAPoint() {
+    if (team == 1) {
+      team1NumberOfPoints = team1NumberOfPoints - 1;
+      numberOfPoints = team1NumberOfPoints;
+    } else {
+      team2NumberOfPoints = team2NumberOfPoints - 1;
+      numberOfPoints = team2NumberOfPoints;
+    }
+  }
+
+  function updateTeamTotalPoints() {
+    if (team == 1) {
+      team1TotalPoints = (team1NumberOfGoals * pointsForGoal) + team1NumberOfPoints;
+      totalPointsContainer.textContent = team1TotalPoints;
+    } else {
+      team2TotalPoints = (team2NumberOfGoals * pointsForGoal) + team2NumberOfPoints;
+      totalPointsContainer.textContent = team2TotalPoints;
+    }
+    if (team1TotalPoints == team2TotalPoints) {
       result.textContent = 'Draw Match';
     }
-    else if (team1ScoreAmount > team2ScoreAmount) {
-      result.textContent = `${team1Name} is winning by ${team1ScoreAmount - team2ScoreAmount} points.`;
+    else if (team1TotalPoints > team2TotalPoints) {
+      result.textContent = `${team1Name} is winning by ${team1TotalPoints - team2TotalPoints} points.`;
     }
     else {
-      result.textContent = `${team2Name} is winning by ${team2ScoreAmount - team1ScoreAmount} points.`;
+      result.textContent = `${team2Name} is winning by ${team2TotalPoints - team1TotalPoints} points.`;
     }
   }
 
@@ -72,49 +116,37 @@ scores.forEach(score => {
   }
 
   addGoalButton.addEventListener('click', () => {
-    numberOfGoals = numberOfGoals + 1;
+    updateAddAGoal();
     numberOfGoalsContainer.querySelector('.score__number').textContent = numberOfGoals;
-
-    goalsPlusPointsCombinedAmount = goalsPlusPointsCombinedAmount + pointsForGoal;
-    totalPointsContainer.textContent = goalsPlusPointsCombinedAmount;
 
     // Once a goal has been scored, remove the disabled attribute from the remove goal button.
     if (score.querySelector('.score__item--goals .score__number').textContent > 0) {
       score.querySelector('.score__item--goals .score__button--remove').removeAttribute('disabled');
     }
 
-    updateTeamScoreAmount();
+    updateTeamTotalPoints();
     goalOrGoalsText();
 
   });
 
   addPointButton.addEventListener('click', () => {
-    numberOfPoints = numberOfPoints + 1;
+    updateAddAPoint();
     numberOfPointsContainer.querySelector('.score__number').textContent = numberOfPoints;
 
-    goalsPlusPointsCombinedAmount = goalsPlusPointsCombinedAmount + 1;
-    totalPointsContainer.textContent = goalsPlusPointsCombinedAmount;
     // Once a point has been scored, remove the disabled attribute from the remove points button.
     if (score.querySelector('.score__item--points .score__number').textContent > 0) {
       score.querySelector('.score__item--points .score__button--remove').removeAttribute('disabled');
     }
 
-    updateTeamScoreAmount();
+    updateTeamTotalPoints();
     pointOrPointsText();
 
   });
 
   removeGoalButton.addEventListener('click', () => {
     if (parseInt(score.querySelector('.score__item--goals .score__number').textContent) > 0) {
-      numberOfGoals = numberOfGoals - 1;
+      updateRemoveAGoal();
       numberOfGoalsContainer.querySelector('.score__number').textContent = numberOfGoals;
-    }
-
-    if (goalsPlusPointsCombinedAmount < 3) {
-      totalPointsContainer.textContent = 0;
-    } else {
-      goalsPlusPointsCombinedAmount = goalsPlusPointsCombinedAmount - pointsForGoal;
-      totalPointsContainer.textContent = goalsPlusPointsCombinedAmount;
     }
 
     // If no goals have been scored, disable the remove goal button.
@@ -122,22 +154,15 @@ scores.forEach(score => {
       score.querySelector('.score__item--goals .score__button--remove').setAttribute('disabled', true);
     }
 
-    updateTeamScoreAmount();
+    updateTeamTotalPoints();
     goalOrGoalsText();
 
   });
 
   removePointButton.addEventListener('click', () => {
     if (parseInt(score.querySelector('.score__item--points .score__number').textContent) > 0) {
-      numberOfPoints = numberOfPoints - 1;
+      updateRemoveAPoint();
       numberOfPointsContainer.querySelector('.score__number').textContent = numberOfPoints;
-    }
-
-    if (goalsPlusPointsCombinedAmount == 0) {
-      totalPointsContainer.textContent = 0;
-    } else {
-      goalsPlusPointsCombinedAmount = goalsPlusPointsCombinedAmount - 1;
-      totalPointsContainer.textContent = goalsPlusPointsCombinedAmount;
     }
 
     // If no points have been scored, disable the remove points button.
@@ -145,7 +170,7 @@ scores.forEach(score => {
       score.querySelector('.score__item--points .score__button--remove').setAttribute('disabled', true);
     }
 
-    updateTeamScoreAmount();
+    updateTeamTotalPoints();
     pointOrPointsText();
 
   });
@@ -190,9 +215,15 @@ function resetAll() {
     score.querySelector('.score__item--points .score__button--remove').setAttribute('disabled', true);
     score.querySelector('.score__item--goals .score__text').textContent = 'Goals';
     score.querySelector('.score__item--points .score__text').textContent = 'Points';
+    team1NumberOfGoals = 0;
+    team1NumberOfPoints = 0;
+    team2NumberOfGoals = 0;
+    team2NumberOfPoints = 0;
+    team1TotalPoints = 0;
+    team2TotalPoints = 0;
   });
-  team1ScoreAmount = 0;
-  team2ScoreAmount = 0;
+  team1TotalPoints = 0;
+  team2TotalPoints = 0;
   result.textContent = 'No scores yet!';
   time = 0;
   clockTime.textContent = '00:00:00';
@@ -200,6 +231,7 @@ function resetAll() {
   isClockRunning = false;
   clockButton.textContent = 'Start Timer';
 }
+
 resetAllButton.addEventListener('click', () => {
   // Ask for confirmation before resetting all scores, just in case.
   if (confirm('Are you sure?')) {
