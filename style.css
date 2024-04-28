@@ -120,6 +120,11 @@ button {
 }
 
 .time {
+  display: grid;
+  gap: var(--space);
+}
+
+.time__actions {
   display: flex;
   gap: var(--space);
   justify-content: space-around;
@@ -141,7 +146,6 @@ button {
 }
 
 /* Header and Footer */
-
 .header,
 .footer {
   padding: var(--space);

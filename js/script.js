@@ -1,6 +1,7 @@
 const scores = document.querySelectorAll('.score');
 const result = document.querySelector('.result p');
-const clockButton = document.querySelector('.time__button');
+const clockButton = document.querySelector('.time__button--start');
+const clockResetButton = document.querySelector('.time__button--reset');
 const clockTime = document.querySelector('.time__time');
 const resetAllButton = document.querySelector('.action__button--reset-all');
 const pointsForGoal = 3;
@@ -205,6 +206,21 @@ clockButton.addEventListener('click', () => {
   }
 });
 
+function resetTimer() {
+  time = 0;
+  clockTime.textContent = '00:00:00';
+  clearInterval(timer);
+  isClockRunning = false;
+  clockButton.textContent = 'Start Timer';
+  clockButton.style.backgroundColor = 'var(--color-success)';
+}
+
+clockResetButton.addEventListener('click', () => {
+  if (confirm('Are you sure?')) {
+    resetTimer();
+  }
+});
+
 // Reset all
 function resetAll() {
   scores.forEach(score => {
@@ -225,11 +241,7 @@ function resetAll() {
   team1TotalPoints = 0;
   team2TotalPoints = 0;
   result.textContent = 'No scores yet!';
-  time = 0;
-  clockTime.textContent = '00:00:00';
-  clearInterval(timer);
-  isClockRunning = false;
-  clockButton.textContent = 'Start Timer';
+  resetTimer();
 }
 
 resetAllButton.addEventListener('click', () => {
